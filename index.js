@@ -1,5 +1,8 @@
 //import package
 require("dotenv/config");
+const compression = require("compression");
+const helmet = require("helmet");
+const morgan = require("morgan");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -19,6 +22,11 @@ const authRoutes = require("./routes/auth.routes");
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(morgan("dev"));
+app.use(helmet());
+app.use(compression());
+
 //routes middleware
 app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
@@ -27,5 +35,5 @@ app.use("/auth", authRoutes);
 //server listen
 const port = 8000;
 app.listen(port, () => {
-  console.log(`server yemchi jawou mezyan 3al port ${port}`);
+  console.log(`server yemchi jawou mezyan 3al port http://localhost:${port}`);
 });
