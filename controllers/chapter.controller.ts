@@ -1,7 +1,8 @@
-const chapterModel = require("../models/chapter.model");
-const storyModel = require("../models/story.model");
+import chapterModel from "../models/chapter.model";
+import storyModel from "../models/story.model";
+import { Request, Response } from "express";
 
-const createChapter = async (req, res) => {
+export const createChapter = async (req: Request, res: Response) => {
   try {
     // get the storyId
     const storyId = req.params.storyId;
@@ -27,7 +28,7 @@ const createChapter = async (req, res) => {
   }
 };
 
-const getChapters = async (req, res) => {
+export const getChapters = async (req: Request, res: Response) => {
   try {
     const chapters = await chapterModel.find().populate("story");
 
@@ -37,7 +38,7 @@ const getChapters = async (req, res) => {
   }
 };
 
-const getChaptersByStory = async (req, res) => {
+export const getChaptersByStory = async (req: Request, res: Response) => {
   try {
     const storyId = req.params.storyId;
 
@@ -51,7 +52,7 @@ const getChaptersByStory = async (req, res) => {
   }
 };
 
-const getChapter = async (req, res) => {
+export const getChapter = async (req: Request, res: Response) => {
   const id = req.params.chapterId;
   try {
     const chapter = await chapterModel.findById(id).populate("story");
@@ -62,7 +63,7 @@ const getChapter = async (req, res) => {
   }
 };
 
-const deleteChapter = async (req, res) => {
+export const deleteChapter = async (req: Request, res: Response) => {
   const id = req.params.chapterId;
   try {
     const chapter = await chapterModel.findByIdAndDelete(id);
@@ -72,7 +73,7 @@ const deleteChapter = async (req, res) => {
   }
 };
 
-const updateChapter = async (req, res) => {
+export const updateChapter = async (req: Request, res: Response) => {
   const id = req.params.chapterId;
   try {
     const chapter = await chapterModel.findByIdAndUpdate(id, req.body, {
@@ -83,10 +84,3 @@ const updateChapter = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-
-module.exports.createChapter = createChapter;
-module.exports.getChapter = getChapter;
-module.exports.getChapters = getChapters;
-module.exports.getChaptersByStory = getChaptersByStory;
-module.exports.deleteChapter = deleteChapter;
-module.exports.updateChapter = updateChapter;

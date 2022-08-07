@@ -1,30 +1,25 @@
 //import package
-require("dotenv/config");
-const compression = require("compression");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const express = require("express");
+import dotenv from "dotenv";
+
+import compression from "compression";
+import helmet from "helmet";
+import morgan from "morgan";
+import express from "express";
+import mongoose from "mongoose";
+
+dotenv.config();
 const app = express();
-const mongoose = require("mongoose");
 
 // DB connection
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI!);
 
 mongoose.connection.on("connected", () => {
   console.log("DB connected");
 });
 
-mongoose.connection.on("error", (err) => {
+mongoose.connection.on("error", (err: Error) => {
   console.log("DB failed with err - ", err);
 });
-
-//import routes
-const storyRoutes = require("./routes/story.routes");
-const categoryRoutes = require("./routes/category.routes");
-const tagRoutes = require("./routes/tag.routes");
-const chapterRoutes = require("./routes/chapter.routes");
-const authRoutes = require("./routes/auth.routes");
-const userRoutes = require("./routes/user.routes");
 
 //middleware
 app.use(express.json());
@@ -33,6 +28,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
+
+//import routes
+import storyRoutes from "./routes/story.routes";
+import categoryRoutes from "./routes/category.routes";
+import tagRoutes from "./routes/tag.routes";
+import chapterRoutes from "./routes/chapter.routes";
+import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 
 //routes middleware
 app.use("/stories", storyRoutes);
@@ -43,7 +46,7 @@ app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 
 //server listen
-const port = 8000;
+const port: Number = 8000;
 app.listen(port, () => {
   console.log(`server yemchi jawou mezyan 3al port http://localhost:${port}`);
 });

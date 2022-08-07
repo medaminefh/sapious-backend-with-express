@@ -1,6 +1,7 @@
 const categoryModel = require("../models/category.model");
+import { Request, Response } from "express";
 
-const createCategory = async (req, res) => {
+export const createCategory = async (req: Request, res: Response) => {
   console.log(req.body);
   const newCategory = new categoryModel({
     name: req.body.name,
@@ -13,7 +14,7 @@ const createCategory = async (req, res) => {
   }
 };
 
-const getCategories = async (req, res) => {
+export const getCategories = async (req: Request, res: Response) => {
   try {
     const categories = await categoryModel.find();
     return res.status(200).json(categories);
@@ -22,7 +23,7 @@ const getCategories = async (req, res) => {
   }
 };
 
-const getCategory = async (req, res) => {
+export const getCategory = async (req: Request, res: Response) => {
   const name = req.params.categoryName;
   try {
     const category = await categoryModel.findOne({ name });
@@ -32,7 +33,7 @@ const getCategory = async (req, res) => {
   }
 };
 
-const deleteCategory = async (req, res) => {
+export const deleteCategory = async (req: Request, res: Response) => {
   const name = req.params.categoryName;
   try {
     const category = await categoryModel.findOneAndDelete({ name });
@@ -42,7 +43,7 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-const updateCategory = async (req, res) => {
+export const updateCategory = async (req: Request, res: Response) => {
   const name = req.params.categoryName;
   try {
     const category = await categoryModel.findOneAndUpdate({ name }, req.body, {
@@ -53,9 +54,3 @@ const updateCategory = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-
-module.exports.getCategory = getCategory;
-module.exports.getCategories = getCategories;
-module.exports.createCategory = createCategory;
-module.exports.deleteCategory = deleteCategory;
-module.exports.updateCategory = updateCategory;

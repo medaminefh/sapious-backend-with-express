@@ -1,12 +1,14 @@
-const {
+import express from "express";
+
+import {
   createTag,
   getTag,
   getTags,
   deleteTag,
   updateTag,
-} = require("../controllers/tag.controller");
+} from "../controllers/tag.controller";
 
-const router = require("express").Router();
+const router = express.Router();
 
 router.post("/", createTag);
 router.get("/", getTags);
@@ -14,4 +16,4 @@ router.get("/:tagName", getTag);
 router.delete("/:tagName", deleteTag);
 router.put("/:tagName", updateTag);
 
-module.exports = router;
+export default router;

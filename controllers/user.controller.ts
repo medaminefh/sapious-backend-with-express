@@ -1,6 +1,7 @@
-const userModel = require("../models/user.model");
+import userModel from "../models/user.model";
+import { Request, Response } from "express";
 
-const createUser = async (req, res) => {
+export const createUser = async (req: Request, res: Response) => {
   const newUser = new userModel({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -16,7 +17,7 @@ const createUser = async (req, res) => {
   }
 };
 
-const getUsers = async (req, res) => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
     // get all users without their passwords (with the select method)
     const users = await userModel.find().select("-password");
@@ -26,7 +27,7 @@ const getUsers = async (req, res) => {
   }
 };
 
-const getUser = async (req, res) => {
+export const getUser = async (req: Request, res: Response) => {
   const id = req.params.userId;
   try {
     const user = await userModel.findById(id).select("-password");
@@ -36,7 +37,7 @@ const getUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req: Request, res: Response) => {
   const id = req.params.userId;
   try {
     const user = await userModel.findByIdAndDelete(id);
@@ -46,7 +47,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
+export const updateUser = async (req: Request, res: Response) => {
   const id = req.params.userId;
   try {
     const user = await userModel.findByIdAndUpdate(id, req.body, {
@@ -57,9 +58,3 @@ const updateUser = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-
-module.exports.getUser = getUser;
-module.exports.getUsers = getUsers;
-module.exports.createUser = createUser;
-module.exports.deleteUser = deleteUser;
-module.exports.updateUser = updateUser;

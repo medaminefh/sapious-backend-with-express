@@ -1,6 +1,7 @@
-const tagModel = require("../models/tag.model");
+import tagModel from "../models/tag.model";
+import { Request, Response } from "express";
 
-const createTag = async (req, res) => {
+export const createTag = async (req: Request, res: Response) => {
   console.log(req.body);
   const newTag = new tagModel({
     name: req.body.name,
@@ -13,7 +14,7 @@ const createTag = async (req, res) => {
   }
 };
 
-const getTags = async (req, res) => {
+export const getTags = async (req: Request, res: Response) => {
   try {
     const tags = await tagModel.find();
     return res.status(200).json(tags);
@@ -22,7 +23,7 @@ const getTags = async (req, res) => {
   }
 };
 
-const getTag = async (req, res) => {
+export const getTag = async (req: Request, res: Response) => {
   const name = req.params.tagName;
   try {
     const tag = await tagModel.findOne({ name });
@@ -32,7 +33,7 @@ const getTag = async (req, res) => {
   }
 };
 
-const deleteTag = async (req, res) => {
+export const deleteTag = async (req: Request, res: Response) => {
   const name = req.params.tagName;
   try {
     const tag = await tagModel.findOneAndDelete({ name });
@@ -42,7 +43,7 @@ const deleteTag = async (req, res) => {
   }
 };
 
-const updateTag = async (req, res) => {
+export const updateTag = async (req: Request, res: Response) => {
   const name = req.params.tagName;
   try {
     const tag = await tagModel.findOneAndUpdate({ name }, req.body, {
@@ -53,9 +54,3 @@ const updateTag = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-
-module.exports.getTag = getTag;
-module.exports.getTags = getTags;
-module.exports.createTag = createTag;
-module.exports.deleteTag = deleteTag;
-module.exports.updateTag = updateTag;

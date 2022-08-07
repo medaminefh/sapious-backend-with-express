@@ -1,6 +1,7 @@
-const storyModel = require("../models/story.model");
+import storyModel from "../models/story.model";
+import { Request, Response } from "express";
 
-const createStory = async (req, res) => {
+export const createStory = async (req: Request, res: Response) => {
   const newStory = new storyModel({
     title: req.body.title,
     description: req.body.description,
@@ -19,7 +20,7 @@ const createStory = async (req, res) => {
   }
 };
 
-const getStories = async (req, res) => {
+export const getStories = async (req: Request, res: Response) => {
   try {
     const stories = await storyModel.find().populate("author");
 
@@ -29,7 +30,7 @@ const getStories = async (req, res) => {
   }
 };
 
-const getStory = async (req, res) => {
+export const getStory = async (req: Request, res: Response) => {
   const id = req.params.storyId;
   try {
     // Increment the READS and VIEWS
@@ -48,7 +49,7 @@ const getStory = async (req, res) => {
   }
 };
 
-const deleteStory = async (req, res) => {
+export const deleteStory = async (req: Request, res: Response) => {
   const id = req.params.storyId;
   try {
     const story = await storyModel.findByIdAndDelete(id);
@@ -58,7 +59,7 @@ const deleteStory = async (req, res) => {
   }
 };
 
-const updateStory = async (req, res) => {
+export const updateStory = async (req: Request, res: Response) => {
   const id = req.params.productId;
   try {
     const story = await storyModel.findByIdAndUpdate(id, req.body, {
@@ -70,7 +71,7 @@ const updateStory = async (req, res) => {
   }
 };
 
-/*  const getStoriesByCategory = async (req, res) => {
+/*  const getStoriesByCategory = async  (req: Request, res: Response) => {
   const id = req.params.categoryId;
 
   try {
@@ -82,10 +83,3 @@ const updateStory = async (req, res) => {
     return res.status(500).json(err);
   }
 };  */
-
-module.exports.getStory = getStory;
-module.exports.getStories = getStories;
-module.exports.createStory = createStory;
-module.exports.deleteStory = deleteStory;
-module.exports.updateStory = updateStory;
-//module.exports.getStoriesByCategory = getStoriesByCategory;
