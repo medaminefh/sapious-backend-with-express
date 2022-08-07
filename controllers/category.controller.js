@@ -1,4 +1,4 @@
-const categoryModel = require("../models/post.models");
+const categoryModel = require("../models/category.model");
 
 const createCategory = async (req, res) => {
   console.log(req.body);
@@ -23,9 +23,9 @@ const getCategories = async (req, res) => {
 };
 
 const getCategory = async (req, res) => {
-  const id = req.params.categoryId;
+  const name = req.params.categoryName;
   try {
-    const category = await categoryModel.findById(id);
+    const category = await categoryModel.findOne({ name });
     return res.status(200).json(category);
   } catch (err) {
     return res.status(500).json(err);
@@ -33,18 +33,19 @@ const getCategory = async (req, res) => {
 };
 
 const deleteCategory = async (req, res) => {
-  const id = req.params.categoryId;
+  const name = req.params.categoryName;
   try {
-    const category = await categoryModel.findByIdAndDelete(id);
+    const category = await categoryModel.findOneAndDelete({ name });
     return res.status(200).json(category);
   } catch (err) {
     return res.status(500).json(err);
   }
 };
+
 const updateCategory = async (req, res) => {
-  const id = req.params.categoryId;
+  const name = req.params.categoryName;
   try {
-    const category = await categoryModel.findByIdAndUpdate(id, req.body, {
+    const category = await categoryModel.findOneAndUpdate({ name }, req.body, {
       new: true,
     });
     return res.status(200).json(category);
@@ -52,6 +53,7 @@ const updateCategory = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+
 module.exports.getCategory = getCategory;
 module.exports.getCategories = getCategories;
 module.exports.createCategory = createCategory;

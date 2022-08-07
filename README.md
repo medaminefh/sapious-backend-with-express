@@ -1,3 +1,1 @@
-## Khadhar Store (Sapious Bootcamp)
-
-// helmet, morgan, compression
+## Wattpad Clone with Nodejs, Express, Mongoose (Sapious Bootcamp)

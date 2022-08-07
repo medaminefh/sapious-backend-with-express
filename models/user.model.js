@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       required: true,
     },
+    avatar: { type: String },
   },
   { timestamps: true }
 );
