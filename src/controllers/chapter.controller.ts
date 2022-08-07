@@ -28,7 +28,7 @@ export const createChapter = async (req: Request, res: Response) => {
   }
 };
 
-export const getChapters = async (req: Request, res: Response) => {
+export const getChapters = async (_: Request, res: Response) => {
   try {
     const chapters = await chapterModel.find().populate("story");
 

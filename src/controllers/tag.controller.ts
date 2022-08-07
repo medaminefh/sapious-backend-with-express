@@ -14,7 +14,7 @@ export const createTag = async (req: Request, res: Response) => {
   }
 };
 
-export const getTags = async (req: Request, res: Response) => {
+export const getTags = async (_: Request, res: Response) => {
   try {
     const tags = await tagModel.find();
     return res.status(200).json(tags);

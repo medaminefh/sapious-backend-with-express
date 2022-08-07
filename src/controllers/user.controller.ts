@@ -17,7 +17,7 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (_: Request, res: Response) => {
   try {
     // get all users without their passwords (with the select method)
     const users = await userModel.find().select("-password");

@@ -20,7 +20,7 @@ export const createStory = async (req: Request, res: Response) => {
   }
 };
 
-export const getStories = async (req: Request, res: Response) => {
+export const getStories = async (_: Request, res: Response) => {
   try {
     const stories = await storyModel.find().populate("author");
 
