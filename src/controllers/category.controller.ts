@@ -1,4 +1,4 @@
-const categoryModel = require("../models/category.model");
+import categoryModel from "../models/category.model";
 import { Request, Response } from "express";
 
 export const createCategory = async (req: Request, res: Response) => {

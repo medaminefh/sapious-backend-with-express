@@ -10,6 +10,7 @@
     "start2": "ts-node src/index.ts",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
+  "type": "commonjs",
   "author": "medaminefh",
   "license": "ISC",
   "dependencies": {
