@@ -1,7 +1,6 @@
 const categoryModel = require("../models/category.model");
 
 const createCategory = async (req, res) => {
-  console.log(req.body);
   const newCategory = new categoryModel({
     name: req.body.name,
   });
@@ -23,19 +22,21 @@ const getCategories = async (req, res) => {
 };
 
 const getCategory = async (req, res) => {
-  const name = req.params.categoryName;
   try {
-    const category = await categoryModel.findOne({ name });
-    return res.status(200).json(category);
+    // const category = await categoryModel.findById(req.category.id);
+
+    const category = await categoryModel.aggregate([
+      { $match: { _id: req.category._id } },
+    ]);
+    return res.status(200).json(category[0]);
   } catch (err) {
     return res.status(500).json(err);
   }
 };
 
 const deleteCategory = async (req, res) => {
-  const name = req.params.categoryName;
   try {
-    const category = await categoryModel.findOneAndDelete({ name });
+    const category = await categoryModel.findByIdAndDelete(req.category.id);
     return res.status(200).json(category);
   } catch (err) {
     return res.status(500).json(err);
@@ -43,11 +44,14 @@ const deleteCategory = async (req, res) => {
 };
 
 const updateCategory = async (req, res) => {
-  const name = req.params.categoryName;
   try {
-    const category = await categoryModel.findOneAndUpdate({ name }, req.body, {
-      new: true,
-    });
+    const category = await categoryModel.findByIdAndUpdate(
+      req.category.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
     return res.status(200).json(category);
   } catch (err) {
     return res.status(500).json(err);

@@ -15,9 +15,7 @@ const StorySchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    reads: { type: Number, default: 0 },
     views: { type: Number, default: 0 },
-    votes: { type: Number, default: 0 },
     readTtime: { type: Number, default: 0 },
   },
   { timestamps: true }

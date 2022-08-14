@@ -1,4 +1,5 @@
 const storyModel = require("../models/story.model");
+const storyReadsModel = require("../models/storyReads.model");
 
 const createStory = async (req, res) => {
   const newStory = new storyModel({
@@ -30,28 +31,102 @@ const getStories = async (req, res) => {
 };
 
 const getStory = async (req, res) => {
-  const id = req.params.storyId;
   try {
     // Increment the READS and VIEWS
-    const storyAfterINC = await storyModel
-      .findOneAndUpdate(
-        { _id: id },
-        { $inc: { views: 1, reads: 1 } },
-        { new: true }
-      )
-      .populate("categories")
-      .populate("tags");
 
-    return res.status(200).json(storyAfterINC);
+    /*     const storyAfterINC = await storyModel
+          .findOneAndUpdate(
+            { _id: req.story.id },
+            { $inc: { views: 1, reads: 1 } },
+            { new: true }
+          )
+          .populate("categories")
+          .populate("tags"); */
+
+    // add a reader
+
+    const alreadyReadIt = await storyReadsModel.findOne({
+      reader: req.user.id,
+      story: req.story._id,
+    });
+
+    if (!alreadyReadIt) {
+      const newReader = new storyReadsModel({
+        reader: req.user.id,
+        story: req.story._id,
+      });
+
+      await newReader.save();
+    }
+
+    // with aggregate
+
+    // Always use _id in aggregation because _id its a (new ObjectId) and id (just a string), and they're not the same in aggregation (You need to be specific)
+    const story = await storyModel.aggregate([
+      { $match: { _id: req.story._id } },
+
+      {
+        $lookup: {
+          from: "chapters",
+          localField: "_id",
+          foreignField: "story",
+          as: "chapters",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "categories",
+          localField: "categories",
+          foreignField: "_id",
+          as: "categories",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "tags",
+          localField: "tags",
+          foreignField: "_id",
+          as: "tags",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "storyreads",
+          localField: "_id",
+          foreignField: "story",
+          as: "storyreaders",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "story",
+          as: "storycomments",
+        },
+      },
+      {
+        $addFields: {
+          totalChapters: { $size: "$chapters" },
+          totalReaders: { $size: "$storyreaders" },
+          totalComments: { $size: "$storycomments" },
+        },
+      },
+    ]);
+
+    return res.status(200).json(story[0]);
   } catch (err) {
     return res.status(500).json(err);
   }
 };
 
 const deleteStory = async (req, res) => {
-  const id = req.params.storyId;
   try {
-    const story = await storyModel.findByIdAndDelete(id);
+    const story = await storyModel.findByIdAndDelete(req.story.id);
     return res.status(200).json(story);
   } catch (err) {
     return res.status(500).json(err);
@@ -59,9 +134,8 @@ const deleteStory = async (req, res) => {
 };
 
 const updateStory = async (req, res) => {
-  const id = req.params.productId;
   try {
-    const story = await storyModel.findByIdAndUpdate(id, req.body, {
+    const story = await storyModel.findByIdAndUpdate(req.story.id, req.body, {
       new: true,
     });
     return res.status(200).json(story);
@@ -70,22 +144,8 @@ const updateStory = async (req, res) => {
   }
 };
 
-/*  const getStoriesByCategory = async (req, res) => {
-  const id = req.params.categoryId;
-
-  try {
-    const products = await storyModel
-      .find({ category: id })
-      .populate("category");
-    return res.status(200).json(products);
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-};  */
-
 module.exports.getStory = getStory;
 module.exports.getStories = getStories;
 module.exports.createStory = createStory;
 module.exports.deleteStory = deleteStory;
 module.exports.updateStory = updateStory;
-//module.exports.getStoriesByCategory = getStoriesByCategory;

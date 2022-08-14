@@ -22,7 +22,6 @@ mongoose.connection.on("error", (err) => {
 const storyRoutes = require("./routes/story.routes");
 const categoryRoutes = require("./routes/category.routes");
 const tagRoutes = require("./routes/tag.routes");
-const chapterRoutes = require("./routes/chapter.routes");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 
@@ -38,7 +37,6 @@ app.use(compression());
 app.use("/stories", storyRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/tags", tagRoutes);
-app.use("/chapters", chapterRoutes);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 

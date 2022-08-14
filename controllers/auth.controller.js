@@ -13,11 +13,9 @@ const login = async (req, res) => {
     if (!validPass) return res.status(401).json({ status: "wrong pass" });
     const token = jwt.sign(
       {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.firstName,
+        id: user._id,
       },
-      "zegzrg",
+      process.env.TOKEN_SECRET,
       { expiresIn: "2d" }
     );
 
