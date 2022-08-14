@@ -1,5 +1,5 @@
 const storyModel = require("../models/story.model");
-const storyReadsModel = require("../models/storyReads.model");
+const storyReadsModel = require("../models/read.model");
 
 const createStory = async (req, res) => {
   const newStory = new storyModel({

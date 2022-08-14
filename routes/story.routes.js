@@ -28,7 +28,7 @@ const isStoryOwner = require("../middlewares/isStoryOwner");
 const verifyToken = require("../middlewares/verifyToken");
 const chapterModel = require("../models/chapter.model");
 const storyModel = require("../models/story.model");
-const storyCommentsModel = require("../models/storyComments.model");
+const storyCommentsModel = require("../models/comment.model");
 
 const router = require("express").Router();
 
