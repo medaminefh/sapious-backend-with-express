@@ -10,10 +10,10 @@ const compression = require("compression");
 //db connection
 mongoose.connect(process.env.MONGO_DB_URI);
 mongoose.connection.on("connected", () => {
-	console.log("DB connected");
+  console.log("DB connected");
 });
 mongoose.connection.on("error", (err) => {
-	console.log("Mongodb failed with- ", err);
+  console.log("Mongodb failed with- ", err);
 });
 //import routes
 const userRoutes = require("./routes/user.routes");
@@ -27,6 +27,13 @@ app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 app.use(helmet());
 app.use(compression());
 //router middleware
+
+app.get("/", (_, res) => {
+  return res
+    .status(200)
+    .send("<h2>Hello world, This is a wattpad-clone 🎉🎉</h2>");
+});
+
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/tags", tagRoutes);
@@ -34,5 +41,5 @@ app.use("/stories", storyRoutes);
 //server listening
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-	console.log(`server yemchi jawou fesfes 3al port ${port}`);
+  console.log(`server yemchi jawou fesfes 3al port ${port}`);
 });
