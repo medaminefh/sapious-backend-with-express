@@ -35,7 +35,7 @@ app.get("/", (_, res) => {
     .send("<h2>Hello world, This is a wattpad-clone 🎉🎉</h2>");
 });
 
-app.use("/", sendMailRoute);
+app.use("/mails", sendMailRoute);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/tags", tagRoutes);
