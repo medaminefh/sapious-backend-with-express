@@ -20,6 +20,7 @@ const userRoutes = require("./routes/user.routes");
 const tagRoutes = require("./routes/tag.routes");
 const authRoutes = require("./routes/auth.routes");
 const storyRoutes = require("./routes/story.routes");
+const sendMailRoute = require("./routes/sendMail.routes");
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,6 +35,7 @@ app.get("/", (_, res) => {
     .send("<h2>Hello world, This is a wattpad-clone 🎉🎉</h2>");
 });
 
+app.use("/", sendMailRoute);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/tags", tagRoutes);
