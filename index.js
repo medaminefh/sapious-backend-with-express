@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 app.use(helmet());
 app.use(compression());
+app.use(cors());
 //router middleware
 
 app.get("/", (_, res) => {
